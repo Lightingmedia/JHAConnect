@@ -1,0 +1,28 @@
+import Image from 'next/image';
+import { LoginForm } from '@/components/login-form';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
+export default function LoginPage() {
+  return (
+    <main className="relative flex min-h-screen flex-col items-center justify-center p-4">
+      <Image
+        src="https://picsum.photos/seed/jhaconnect/1920/1080"
+        alt="Community background"
+        fill
+        className="object-cover -z-10"
+        data-ai-hint="community gathering"
+      />
+      <div className="absolute inset-0 bg-background/50 -z-10" />
+      
+      <Card className="w-full max-w-sm bg-background/80 backdrop-blur-sm border-2">
+        <CardHeader className="text-center">
+          <CardTitle className="text-3xl font-headline">JHA Connect</CardTitle>
+          <CardDescription>Welcome to our community hub.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <LoginForm />
+        </CardContent>
+      </Card>
+    </main>
+  );
+}

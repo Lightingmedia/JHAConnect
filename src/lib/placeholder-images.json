@@ -1,3 +1,40 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "user-1",
+      "description": "Profile picture for a smiling woman",
+      "imageUrl": "https://picsum.photos/seed/1/200/200",
+      "imageHint": "woman smiling"
+    },
+    {
+      "id": "user-2",
+      "description": "Profile picture for a man with glasses",
+      "imageUrl": "https://picsum.photos/seed/2/200/200",
+      "imageHint": "man glasses"
+    },
+    {
+      "id": "user-3",
+      "description": "Profile picture for a person hiking",
+      "imageUrl": "https://picsum.photos/seed/3/200/200",
+      "imageHint": "person hiking"
+    },
+    {
+      "id": "user-4",
+      "description": "Profile picture for a woman with curly hair",
+      "imageUrl": "https://picsum.photos/seed/4/200/200",
+      "imageHint": "woman curly"
+    },
+    {
+      "id": "user-5",
+      "description": "Profile picture for a man in a suit",
+      "imageUrl": "https://picsum.photos/seed/5/200/200",
+      "imageHint": "man suit"
+    },
+    {
+      "id": "user-6",
+      "description": "Profile picture for a smiling person",
+      "imageUrl": "https://picsum.photos/seed/6/200/200",
+      "imageHint": "person smiling"
+    }
+  ]
 }

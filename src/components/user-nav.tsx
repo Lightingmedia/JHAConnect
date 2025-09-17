@@ -46,9 +46,9 @@ export function UserNav({ user }: { user: User | null }) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href="/profile">
-            <DropdownMenuItem>
-                Profile
+          <Link href="/profile" passHref>
+            <DropdownMenuItem asChild>
+                <a>Profile</a>
             </DropdownMenuItem>
           </Link>
         </DropdownMenuGroup>

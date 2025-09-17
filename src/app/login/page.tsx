@@ -6,7 +6,7 @@ export default function LoginPage() {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center p-4">
       <Image
-        src="https://picsum.photos/seed/jhaconnect/1920/1080"
+        src="https://storage.googleapis.com/aifirebase-demo-images/jhaconnect_background.jpg"
         alt="Community background"
         fill
         className="object-cover -z-10"

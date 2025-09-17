@@ -44,6 +44,14 @@ export const communityUsers: User[] = [
     profileDetails: 'A tech geek and movie buff.',
     birthday: { month: 12, day: 1 },
   },
+  {
+    id: '6',
+    name: 'New User',
+    phone: '9254343862',
+    profilePicture: 'https://picsum.photos/seed/6/200/200',
+    profileDetails: 'A new member of the community.',
+    birthday: { month: 1, day: 1 },
+  },
 ];
 
 export const communityPosts: Post[] = [

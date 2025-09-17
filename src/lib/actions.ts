@@ -6,7 +6,10 @@ import { communityUsers } from './data';
 import { generateBirthdayGreeting } from '@/ai/flows/generate-birthday-greeting';
 import type { GenerateBirthdayGreetingInput } from '@/ai/flows/generate-birthday-greeting';
 
-export async function login(formData: FormData): Promise<{ error: string } | void> {
+export async function login(
+  prevState: { error: string } | void,
+  formData: FormData
+): Promise<{ error: string } | void> {
   const phone = formData.get('phone') as string;
 
   const user = communityUsers.find((u) => u.phone === phone);

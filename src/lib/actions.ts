@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
+import * as xlsx from 'xlsx';
 import { communityUsers } from './data';
 import { generateBirthdayGreeting } from '@/ai/flows/generate-birthday-greeting';
 import type { GenerateBirthdayGreetingInput } from '@/ai/flows/generate-birthday-greeting';
@@ -69,4 +70,41 @@ export async function deleteUser(userId: string) {
         revalidatePath('/admin');
         revalidatePath('/directory');
     }
+}
+
+export async function uploadUsers(formData: FormData) {
+  const file = formData.get('file') as File;
+  if (!file) {
+    throw new Error('No file uploaded.');
+  }
+
+  const buffer = await file.arrayBuffer();
+  const workbook = xlsx.read(buffer, { type: 'buffer' });
+  const sheetName = workbook.SheetNames[0];
+  const worksheet = workbook.Sheets[sheetName];
+  const data: any[] = xlsx.utils.sheet_to_json(worksheet);
+
+  // Clear existing users and replace with uploaded data
+  // In a real app you'd want more robust merging logic
+  communityUsers.length = 0; 
+
+  data.forEach((row: any, index: number) => {
+    const birthday = row.birthday ? new Date(row.birthday) : new Date();
+    const newUser: User = {
+      id: row.id || String(Date.now() + index),
+      name: row.name || 'No Name',
+      phone: String(row.phone || ''),
+      profilePicture: row.profilePicture || `https://picsum.photos/seed/${Date.now() + index}/200/200`,
+      profileDetails: row.profileDetails || '',
+      birthday: {
+        month: birthday.getMonth() + 1,
+        day: birthday.getDate(),
+      },
+      isAdmin: row.isAdmin === 'true' || row.isAdmin === true,
+    };
+    communityUsers.push(newUser);
+  });
+
+  revalidatePath('/admin');
+  revalidatePath('/directory');
 }

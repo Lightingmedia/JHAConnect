@@ -26,19 +26,21 @@ import {
     AlertDialogTitle,
   } from "@/components/ui/alert-dialog"
 import { Button } from '@/components/ui/button';
-import { MoreHorizontal, PlusCircle } from 'lucide-react';
+import { MoreHorizontal, PlusCircle, Upload } from 'lucide-react';
 import { communityUsers as initialUsers } from '@/lib/data';
 import type { User } from '@/lib/types';
 import { MemberForm } from '@/components/member-form';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Badge } from './ui/badge';
-import { addUser, deleteUser, updateUser } from '@/lib/actions';
+import { addUser, deleteUser, updateUser, uploadUsers } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
+import { MemberUpload } from './member-upload';
 
 export default function MemberManagement() {
   const [users, setUsers] = useState<User[]>(initialUsers);
   const [editingUser, setEditingUser] = useState<User | null | 'new'>(null);
   const [deletingUser, setDeletingUser] = useState<User | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const { toast } = useToast();
 
   const handleSave = async (userToSave: User) => {
@@ -62,9 +64,33 @@ export default function MemberManagement() {
     }
   };
 
+  const handleFileUpload = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      await uploadUsers(formData);
+      toast({
+        title: 'Upload Successful',
+        description: 'Member data has been updated from the XLS file.',
+      });
+    } catch (error) {
+      toast({
+        title: 'Upload Failed',
+        description: (error as Error).message || 'An unknown error occurred.',
+        variant: 'destructive',
+      });
+    }
+    setIsUploading(false);
+  };
+
+
   return (
     <>
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
+        <Button onClick={() => setIsUploading(true)}>
+            <Upload className="mr-2 h-4 w-4" />
+            Upload XLS
+        </Button>
         <Button onClick={() => setEditingUser('new')}>
             <PlusCircle className="mr-2 h-4 w-4" />
             Add Member
@@ -150,6 +176,10 @@ export default function MemberManagement() {
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
+      )}
+
+      {isUploading && (
+        <MemberUpload onUpload={handleFileUpload} onCancel={() => setIsUploading(false)} />
       )}
     </>
   );

@@ -14,7 +14,7 @@ export default async function ProfilePage() {
   return (
     <AppLayout>
       <div className="flex justify-center">
-        <Card className="w-full max-w-2xl">
+        <Card className="w-full max-w-2xl bg-background/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="font-headline">Your Profile</CardTitle>
             <CardDescription>

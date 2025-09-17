@@ -27,29 +27,39 @@ import {
   } from "@/components/ui/alert-dialog"
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal, PlusCircle } from 'lucide-react';
-import { communityUsers } from '@/lib/data';
+import { communityUsers as initialUsers } from '@/lib/data';
 import type { User } from '@/lib/types';
 import { MemberForm } from '@/components/member-form';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Badge } from './ui/badge';
+import { addUser, deleteUser, updateUser } from '@/lib/actions';
+import { useToast } from '@/hooks/use-toast';
 
 export default function MemberManagement() {
-  const [users, setUsers] = useState<User[]>(communityUsers);
+  const [users, setUsers] = useState<User[]>(initialUsers);
   const [editingUser, setEditingUser] = useState<User | null | 'new'>(null);
   const [deletingUser, setDeletingUser] = useState<User | null>(null);
+  const { toast } = useToast();
 
-  const handleSave = (userToSave: User) => {
+  const handleSave = async (userToSave: User) => {
     if (editingUser === 'new') {
-      setUsers([...users, { ...userToSave, id: String(Date.now()) }]);
+      await addUser(userToSave);
+      toast({ title: "Member Added", description: `${userToSave.name} has been added to the community.` });
     } else {
-      setUsers(users.map(u => u.id === userToSave.id ? userToSave : u));
+      await updateUser(userToSave);
+      toast({ title: "Member Updated", description: `${userToSave.name}'s information has been updated.` });
     }
+    // Note: In a real app, we would re-fetch users or get the updated list back
+    // For this demo, we'll just close the form. The revalidation should update the UI.
     setEditingUser(null);
   };
 
-  const handleDelete = (userId: string) => {
-    setUsers(users.filter(u => u.id !== userId));
-    setDeletingUser(null);
+  const handleDeleteConfirm = async () => {
+    if (deletingUser) {
+        await deleteUser(deletingUser.id);
+        toast({ title: "Member Deleted", description: `${deletingUser.name} has been removed from the community.`, variant: 'destructive' });
+        setDeletingUser(null);
+    }
   };
 
   return (
@@ -72,7 +82,7 @@ export default function MemberManagement() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
+            {initialUsers.map((user) => (
               <TableRow key={user.id}>
                 <TableCell>
                   <div className="flex items-center gap-4">
@@ -134,7 +144,7 @@ export default function MemberManagement() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => handleDelete(deletingUser.id)} variant="destructive">
+                    <AlertDialogAction onClick={handleDeleteConfirm} variant="destructive">
                         Delete
                     </AlertDialogAction>
                 </AlertDialogFooter>

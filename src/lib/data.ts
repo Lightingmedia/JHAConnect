@@ -1,6 +1,6 @@
 import { User, Post } from './types';
 
-export const adminPhoneNumbers: string[] = ['1234567890'];
+export const adminPhoneNumbers: string[] = ['1234567890', '9254343862'];
 
 export const communityUsers: User[] = [
   {
@@ -51,6 +51,7 @@ export const communityUsers: User[] = [
     profilePicture: 'https://picsum.photos/seed/6/200/200',
     profileDetails: 'A new member of the community.',
     birthday: { month: 1, day: 1 },
+    isAdmin: true,
   },
 ];
 

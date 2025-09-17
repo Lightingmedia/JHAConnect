@@ -22,20 +22,35 @@ interface MemberFormProps {
   onCancel: () => void;
 }
 
-const emptyUser: Omit<User, 'id'> = {
+const emptyUser: Omit<User, 'id' | 'profilePicture'> = {
     name: '',
     phone: '',
     birthday: { month: 1, day: 1 },
-    profilePicture: `https://picsum.photos/seed/${Date.now()}/200/200`,
     profileDetails: '',
     isAdmin: false
 };
 
 export function MemberForm({ user, onSave, onCancel }: MemberFormProps) {
-  const [formData, setFormData] = useState<Omit<User, 'id'>>(user || emptyUser);
+  const [formData, setFormData] = useState<Omit<User, 'id' | 'profilePicture'>>(user ? {
+      name: user.name,
+      phone: user.phone,
+      birthday: user.birthday,
+      profileDetails: user.profileDetails,
+      isAdmin: user.isAdmin
+  } : emptyUser);
 
   useEffect(() => {
-    setFormData(user || emptyUser);
+    if (user) {
+        setFormData({
+            name: user.name,
+            phone: user.phone,
+            birthday: user.birthday,
+            profileDetails: user.profileDetails,
+            isAdmin: user.isAdmin
+        });
+    } else {
+        setFormData(emptyUser);
+    }
   }, [user]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -57,9 +72,10 @@ export function MemberForm({ user, onSave, onCancel }: MemberFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const userToSave = {
+    const userToSave: User = {
         ...formData,
-        id: user?.id || String(Date.now()),
+        id: user?.id || '', // ID is handled by server action for new users
+        profilePicture: user?.profilePicture || '', // Handled by server action
     };
     onSave(userToSave);
   };

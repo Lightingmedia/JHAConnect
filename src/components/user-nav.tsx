@@ -46,7 +46,7 @@ export function UserNav({ user }: { user: User | null }) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href="/profile" passHref>
+          <Link href="/profile" passHref legacyBehavior>
             <DropdownMenuItem asChild>
                 <a>Profile</a>
             </DropdownMenuItem>

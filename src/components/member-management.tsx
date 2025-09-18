@@ -27,7 +27,6 @@ import {
   } from "@/components/ui/alert-dialog"
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal, PlusCircle, Upload } from 'lucide-react';
-import { communityUsers as initialUsers } from '@/lib/data';
 import type { User } from '@/lib/types';
 import { MemberForm } from '@/components/member-form';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -37,7 +36,7 @@ import { useToast } from '@/hooks/use-toast';
 import { MemberUpload } from './member-upload';
 import { useRouter } from 'next/navigation';
 
-export default function MemberManagement() {
+export default function MemberManagement({ users }: { users: User[] }) {
   const [editingUser, setEditingUser] = useState<User | null | 'new'>(null);
   const [deletingUser, setDeletingUser] = useState<User | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -45,23 +44,31 @@ export default function MemberManagement() {
   const router = useRouter();
 
   const handleSave = async (userToSave: User) => {
-    if (editingUser === 'new') {
-      await addUser(userToSave);
-      toast({ title: "Member Added", description: `${userToSave.name} has been added to the community.` });
-    } else {
-      await updateUser(userToSave);
-      toast({ title: "Member Updated", description: `${userToSave.name}'s information has been updated.` });
+    try {
+        if (editingUser === 'new') {
+            await addUser(userToSave);
+            toast({ title: "Member Added", description: `${userToSave.name} has been added to the community.` });
+        } else {
+            await updateUser(userToSave);
+            toast({ title: "Member Updated", description: `${userToSave.name}'s information has been updated.` });
+        }
+        setEditingUser(null);
+        router.refresh(); // This will re-fetch server components
+    } catch (error) {
+        toast({ title: "Error", description: "Could not save member.", variant: 'destructive' });
     }
-    setEditingUser(null);
-    router.refresh();
   };
 
   const handleDeleteConfirm = async () => {
     if (deletingUser) {
-        await deleteUser(deletingUser.id);
-        toast({ title: "Member Deleted", description: `${deletingUser.name} has been removed from the community.`, variant: 'destructive' });
-        setDeletingUser(null);
-        router.refresh();
+        try {
+            await deleteUser(deletingUser.id);
+            toast({ title: "Member Deleted", description: `${deletingUser.name} has been removed from the community.`, variant: 'destructive' });
+            setDeletingUser(null);
+            router.refresh();
+        } catch(error) {
+            toast({ title: "Error", description: "Could not delete member.", variant: 'destructive' });
+        }
     }
   };
 
@@ -110,7 +117,7 @@ export default function MemberManagement() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {initialUsers.map((user) => (
+            {users.map((user) => (
               <TableRow key={user.id}>
                 <TableCell>
                   <div className="flex items-center gap-4">
@@ -139,7 +146,7 @@ export default function MemberManagement() {
                         Edit
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        className="text-red-600"
+                        className="text-red-600 focus:text-red-600"
                         onClick={() => setDeletingUser(user)}
                       >
                         Delete

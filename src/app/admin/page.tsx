@@ -1,4 +1,5 @@
 import MemberManagement from "@/components/member-management"
+import { communityUsers } from "@/lib/data";
 
 export default function AdminPage() {
   return (
@@ -7,7 +8,7 @@ export default function AdminPage() {
       <p className="text-muted-foreground">
         Manage community members. Changes made here are for demonstration and will not persist.
       </p>
-      <MemberManagement />
+      <MemberManagement users={communityUsers} />
     </div>
   )
 }

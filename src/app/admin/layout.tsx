@@ -11,7 +11,13 @@ export default async function AdminLayout({
 }) {
   const user = await getAuthenticatedUser();
 
-  if (!user?.isAdmin) {
+  if (!user) {
+    // If no user is authenticated, redirect to login.
+    redirect('/login');
+  }
+
+  if (!user.isAdmin) {
+    // If the user is not an admin, show an access denied message.
     return (
         <AppLayout>
             <Alert variant="destructive">
@@ -25,5 +31,6 @@ export default async function AdminLayout({
     );
   }
   
+  // If the user is an admin, render the layout and its children.
   return <AppLayout>{children}</AppLayout>;
 }

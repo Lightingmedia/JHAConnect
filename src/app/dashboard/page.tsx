@@ -16,13 +16,24 @@ export default async function DashboardPage() {
   const birthdaysToday = communityUsers.filter(u => u.birthday.month === today.getMonth() + 1 && u.birthday.day === today.getDate());
   
   const upcomingBirthdays = communityUsers.map(u => {
-    const birthdayDate = new Date(today.getFullYear(), u.birthday.month - 1, u.birthday.day);
-    if (birthdayDate < today) {
-      birthdayDate.setFullYear(today.getFullYear() + 1);
+    // Ensure birthday is valid before creating a date
+    if (u.birthday && typeof u.birthday.month === 'number' && typeof u.birthday.day === 'number') {
+      const birthdayDate = new Date(today.getFullYear(), u.birthday.month - 1, u.birthday.day);
+      if (birthdayDate < today) {
+        birthdayDate.setFullYear(today.getFullYear() + 1);
+      }
+      return { ...u, birthdayDate };
     }
-    return { ...u, birthdayDate };
-  }).sort((a, b) => a.birthdayDate.getTime() - b.birthdayDate.getTime())
+    return { ...u, birthdayDate: null };
+  })
+  .filter(u => u.birthdayDate) // Filter out users with invalid birthdays
+  .sort((a, b) => a.birthdayDate!.getTime() - b.birthdayDate!.getTime())
   .slice(0, 5);
+
+  const birthdayDates = communityUsers
+    .filter(u => u.birthday && typeof u.birthday.month === 'number' && typeof u.birthday.day === 'number')
+    .map(u => new Date(today.getFullYear(), u.birthday.month - 1, u.birthday.day));
+
 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -54,9 +65,11 @@ export default async function DashboardPage() {
                   </Avatar>
                   <div className="flex-1">
                     <p className="font-semibold">{u.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {format(u.birthdayDate, 'MMMM do')}
-                    </p>
+                    {u.birthdayDate && (
+                      <p className="text-sm text-muted-foreground">
+                        {format(u.birthdayDate, 'MMMM do')}
+                      </p>
+                    )}
                   </div>
                 </li>
               ))}
@@ -73,7 +86,7 @@ export default async function DashboardPage() {
                     selected={today}
                     className="rounded-md"
                     modifiers={{
-                        birthday: communityUsers.map(u => new Date(today.getFullYear(), u.birthday.month - 1, u.birthday.day))
+                        birthday: birthdayDates
                     }}
                     modifiersStyles={{
                         birthday: {

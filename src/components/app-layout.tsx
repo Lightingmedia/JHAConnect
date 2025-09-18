@@ -1,11 +1,10 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Home,
   Users,
   Settings,
-  Calendar,
   Contact,
-  Package2,
 } from 'lucide-react';
 import { UserNav } from '@/components/user-nav';
 import { Button } from '@/components/ui/button';
@@ -33,7 +32,13 @@ export default async function AppLayout({
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold font-headline">
-              <Calendar className="h-6 w-6 text-primary" />
+               <Image 
+                src="https://storage.googleapis.com/aifirebase-static-content/prompts/visual-chat/1722306785246_9135.png"
+                alt="JHA Connect Logo"
+                width={32}
+                height={32}
+                className="h-8 w-8"
+              />
               <span className="">JHA Connect</span>
             </Link>
           </div>

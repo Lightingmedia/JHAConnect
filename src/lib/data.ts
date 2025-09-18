@@ -5,30 +5,15 @@ import type { User, Post } from './types';
 
 export let communityUsers: User[] = [
   {
-    "id": "1",
-    "name": "JHA",
-    "phone": "1234567890",
-    "profilePicture": "https://storage.googleapis.com/aifirebase-demo-images/jha-connect-profile-1.png",
-    "profileDetails": "Loves hiking and photography. Been a member for 5 years.",
-    "birthday": { "month": 7, "day": 19 },
-    "isAdmin": true
-  },
-  {
-    "id": "2",
-    "name": "Jane Doe",
-    "phone": "0987654321",
-    "profilePicture": "https://storage.googleapis.com/aifirebase-demo-images/jha-connect-profile-2.png",
-    "profileDetails": "A passionate baker and dog lover.",
-    "birthday": { "month": 7, "day": 21 },
-    "isAdmin": false
-  },
-  {
     "id": "user-1719525601",
     "name": "Segun Ademolu",
     "phone": "+1 (510) 953-9096",
     "profilePicture": "https://picsum.photos/seed/1719525601/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 5, "day": 25 },
+    "birthday": {
+      "month": 5,
+      "day": 25
+    },
     "isAdmin": false
   },
   {
@@ -37,7 +22,10 @@ export let communityUsers: User[] = [
     "phone": "+234 703 088 3287",
     "profilePicture": "https://picsum.photos/seed/1719525602/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 4, "day": 10 },
+    "birthday": {
+      "month": 4,
+      "day": 10
+    },
     "isAdmin": false
   },
   {
@@ -46,7 +34,10 @@ export let communityUsers: User[] = [
     "phone": "9255226914",
     "profilePicture": "https://picsum.photos/seed/1719525603/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 6, "day": 13 },
+    "birthday": {
+      "month": 6,
+      "day": 13
+    },
     "isAdmin": false
   },
   {
@@ -55,7 +46,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (925) 528-6163",
     "profilePicture": "https://picsum.photos/seed/1719525604/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 9, "day": 23 },
+    "birthday": {
+      "month": 9,
+      "day": 23
+    },
     "isAdmin": false
   },
   {
@@ -64,7 +58,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (925) 752-5992",
     "profilePicture": "https://picsum.photos/seed/1719525605/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 4, "day": 24 },
+    "birthday": {
+      "month": 4,
+      "day": 24
+    },
     "isAdmin": false
   },
   {
@@ -73,7 +70,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (925) 435-2792",
     "profilePicture": "https://picsum.photos/seed/1719525606/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 3, "day": 27 },
+    "birthday": {
+      "month": 3,
+      "day": 27
+    },
     "isAdmin": false
   },
   {
@@ -82,7 +82,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (925) 595-2574",
     "profilePicture": "https://picsum.photos/seed/1719525607/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 1, "day": 1 },
+    "birthday": {
+      "month": 1,
+      "day": 1
+    },
     "isAdmin": false
   },
   {
@@ -91,7 +94,10 @@ export let communityUsers: User[] = [
     "phone": "9255485589",
     "profilePicture": "https://picsum.photos/seed/1719525608/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 6, "day": 21 },
+    "birthday": {
+      "month": 6,
+      "day": 21
+    },
     "isAdmin": false
   },
   {
@@ -100,7 +106,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (925) 206-1317",
     "profilePicture": "https://picsum.photos/seed/1719525609/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 7, "day": 23 },
+    "birthday": {
+      "month": 7,
+      "day": 23
+    },
     "isAdmin": false
   },
   {
@@ -109,7 +118,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (303) 885-2649",
     "profilePicture": "https://picsum.photos/seed/1719525610/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 7, "day": 29 },
+    "birthday": {
+      "month": 7,
+      "day": 29
+    },
     "isAdmin": false
   },
   {
@@ -118,7 +130,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (925) 407-5047",
     "profilePicture": "https://picsum.photos/seed/1719525611/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 9, "day": 13 },
+    "birthday": {
+      "month": 9,
+      "day": 13
+    },
     "isAdmin": false
   },
   {
@@ -127,7 +142,10 @@ export let communityUsers: User[] = [
     "phone": "+1 4157942376",
     "profilePicture": "https://picsum.photos/seed/1719525612/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 5, "day": 19 },
+    "birthday": {
+      "month": 5,
+      "day": 19
+    },
     "isAdmin": false
   },
   {
@@ -136,7 +154,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (925) 329-8318",
     "profilePicture": "https://picsum.photos/seed/1719525613/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 10, "day": 10 },
+    "birthday": {
+      "month": 10,
+      "day": 10
+    },
     "isAdmin": false
   },
   {
@@ -145,7 +166,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (510) 246-6906",
     "profilePicture": "https://picsum.photos/seed/1719525614/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 8, "day": 12 },
+    "birthday": {
+      "month": 8,
+      "day": 12
+    },
     "isAdmin": false
   },
   {
@@ -154,7 +178,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (415) 244-7880",
     "profilePicture": "https://picsum.photos/seed/1719525615/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 12, "day": 13 },
+    "birthday": {
+      "month": 12,
+      "day": 13
+    },
     "isAdmin": false
   },
   {
@@ -163,7 +190,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (415) 530-0337",
     "profilePicture": "https://picsum.photos/seed/1719525616/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 2, "day": 6 },
+    "birthday": {
+      "month": 2,
+      "day": 6
+    },
     "isAdmin": false
   },
   {
@@ -172,7 +202,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (917) 724-4180",
     "profilePicture": "https://picsum.photos/seed/1719525617/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 5, "day": 20 },
+    "birthday": {
+      "month": 5,
+      "day": 20
+    },
     "isAdmin": false
   },
   {
@@ -181,7 +214,10 @@ export let communityUsers: User[] = [
     "phone": "9252371833",
     "profilePicture": "https://picsum.photos/seed/1719525618/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 3, "day": 19 },
+    "birthday": {
+      "month": 3,
+      "day": 19
+    },
     "isAdmin": false
   },
   {
@@ -190,7 +226,10 @@ export let communityUsers: User[] = [
     "phone": "9258135393",
     "profilePicture": "https://picsum.photos/seed/1719525619/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 1, "day": 4 },
+    "birthday": {
+      "month": 1,
+      "day": 4
+    },
     "isAdmin": false
   },
   {
@@ -199,7 +238,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (415) 425-8215",
     "profilePicture": "https://picsum.photos/seed/1719525620/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 4, "day": 3 },
+    "birthday": {
+      "month": 4,
+      "day": 3
+    },
     "isAdmin": false
   },
   {
@@ -208,7 +250,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (510) 827-6018",
     "profilePicture": "https://picsum.photos/seed/1719525621/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 5, "day": 1 },
+    "birthday": {
+      "month": 5,
+      "day": 1
+    },
     "isAdmin": false
   },
   {
@@ -217,7 +262,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (415) 583-1611",
     "profilePicture": "https://picsum.photos/seed/1719525622/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 9, "day": 9 },
+    "birthday": {
+      "month": 9,
+      "day": 9
+    },
     "isAdmin": false
   },
   {
@@ -226,7 +274,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (925) 984-9245",
     "profilePicture": "https://picsum.photos/seed/1719525623/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 12, "day": 4 },
+    "birthday": {
+      "month": 12,
+      "day": 4
+    },
     "isAdmin": false
   },
   {
@@ -235,7 +286,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (614) 772-4999",
     "profilePicture": "https://picsum.photos/seed/1719525624/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 12, "day": 25 },
+    "birthday": {
+      "month": 12,
+      "day": 25
+    },
     "isAdmin": false
   },
   {
@@ -244,7 +298,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (708) 631-8471",
     "profilePicture": "https://picsum.photos/seed/1719525625/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 9, "day": 28 },
+    "birthday": {
+      "month": 9,
+      "day": 28
+    },
     "isAdmin": false
   },
   {
@@ -253,7 +310,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (925) 378-8342",
     "profilePicture": "https://picsum.photos/seed/1719525626/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 12, "day": 26 },
+    "birthday": {
+      "month": 12,
+      "day": 26
+    },
     "isAdmin": false
   },
   {
@@ -262,7 +322,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (510) 258-4583",
     "profilePicture": "https://picsum.photos/seed/1719525627/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 11, "day": 14 },
+    "birthday": {
+      "month": 11,
+      "day": 14
+    },
     "isAdmin": false
   },
   {
@@ -271,7 +334,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (925) 628-9610",
     "profilePicture": "https://picsum.photos/seed/1719525628/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 8, "day": 28 },
+    "birthday": {
+      "month": 8,
+      "day": 28
+    },
     "isAdmin": false
   },
   {
@@ -280,7 +346,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (925) 699-5312",
     "profilePicture": "https://picsum.photos/seed/1719525629/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 6, "day": 19 },
+    "birthday": {
+      "month": 6,
+      "day": 19
+    },
     "isAdmin": false
   },
   {
@@ -289,7 +358,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (917) 600-4754",
     "profilePicture": "https://picsum.photos/seed/1719525630/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 6, "day": 14 },
+    "birthday": {
+      "month": 6,
+      "day": 14
+    },
     "isAdmin": false
   },
   {
@@ -298,7 +370,10 @@ export let communityUsers: User[] = [
     "phone": "5101234517",
     "profilePicture": "https://picsum.photos/seed/1719525631/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 6, "day": 30 },
+    "birthday": {
+      "month": 6,
+      "day": 30
+    },
     "isAdmin": false
   },
   {
@@ -307,7 +382,10 @@ export let communityUsers: User[] = [
     "phone": "5101234516",
     "profilePicture": "https://picsum.photos/seed/1719525632/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 8, "day": 2 },
+    "birthday": {
+      "month": 8,
+      "day": 2
+    },
     "isAdmin": false
   },
   {
@@ -316,7 +394,10 @@ export let communityUsers: User[] = [
     "phone": "5101234506",
     "profilePicture": "https://picsum.photos/seed/1719525633/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 4, "day": 21 },
+    "birthday": {
+      "month": 4,
+      "day": 21
+    },
     "isAdmin": false
   },
   {
@@ -325,7 +406,10 @@ export let communityUsers: User[] = [
     "phone": "5101234515",
     "profilePicture": "https://picsum.photos/seed/1719525634/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 10, "day": 30 },
+    "birthday": {
+      "month": 10,
+      "day": 30
+    },
     "isAdmin": false
   },
   {
@@ -334,7 +418,10 @@ export let communityUsers: User[] = [
     "phone": "5101234512",
     "profilePicture": "https://picsum.photos/seed/1719525635/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 1, "day": 8 },
+    "birthday": {
+      "month": 1,
+      "day": 8
+    },
     "isAdmin": false
   },
   {
@@ -343,7 +430,10 @@ export let communityUsers: User[] = [
     "phone": "530-364-7041",
     "profilePicture": "https://picsum.photos/seed/1719525636/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 8, "day": 7 },
+    "birthday": {
+      "month": 8,
+      "day": 7
+    },
     "isAdmin": false
   },
   {
@@ -352,7 +442,10 @@ export let communityUsers: User[] = [
     "phone": "5101234510",
     "profilePicture": "https://picsum.photos/seed/1719525637/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 4, "day": 11 },
+    "birthday": {
+      "month": 4,
+      "day": 11
+    },
     "isAdmin": false
   },
   {
@@ -361,7 +454,10 @@ export let communityUsers: User[] = [
     "phone": "5101234514",
     "profilePicture": "https://picsum.photos/seed/1719525638/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 4, "day": 6 },
+    "birthday": {
+      "month": 4,
+      "day": 6
+    },
     "isAdmin": false
   },
   {
@@ -370,7 +466,10 @@ export let communityUsers: User[] = [
     "phone": "5101234518",
     "profilePicture": "https://picsum.photos/seed/1719525639/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 6, "day": 16 },
+    "birthday": {
+      "month": 6,
+      "day": 16
+    },
     "isAdmin": false
   },
   {
@@ -379,7 +478,10 @@ export let communityUsers: User[] = [
     "phone": "5101234504",
     "profilePicture": "https://picsum.photos/seed/1719525640/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 4, "day": 21 },
+    "birthday": {
+      "month": 4,
+      "day": 21
+    },
     "isAdmin": false
   },
   {
@@ -388,7 +490,10 @@ export let communityUsers: User[] = [
     "phone": "5101234503",
     "profilePicture": "https://picsum.photos/seed/1719525641/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 3, "day": 30 },
+    "birthday": {
+      "month": 3,
+      "day": 30
+    },
     "isAdmin": false
   },
   {
@@ -397,7 +502,10 @@ export let communityUsers: User[] = [
     "phone": "5101234502",
     "profilePicture": "https://picsum.photos/seed/1719525642/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 6, "day": 11 },
+    "birthday": {
+      "month": 6,
+      "day": 11
+    },
     "isAdmin": false
   },
   {
@@ -406,7 +514,10 @@ export let communityUsers: User[] = [
     "phone": "5101234501",
     "profilePicture": "https://picsum.photos/seed/1719525643/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 7, "day": 30 },
+    "birthday": {
+      "month": 7,
+      "day": 30
+    },
     "isAdmin": false
   },
   {
@@ -415,7 +526,10 @@ export let communityUsers: User[] = [
     "phone": "5101234511",
     "profilePicture": "https://picsum.photos/seed/1719525644/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 6, "day": 17 },
+    "birthday": {
+      "month": 6,
+      "day": 17
+    },
     "isAdmin": false
   },
   {
@@ -424,7 +538,10 @@ export let communityUsers: User[] = [
     "phone": "5101234509",
     "profilePicture": "https://picsum.photos/seed/1719525645/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 8, "day": 15 },
+    "birthday": {
+      "month": 8,
+      "day": 15
+    },
     "isAdmin": false
   },
   {
@@ -433,7 +550,10 @@ export let communityUsers: User[] = [
     "phone": "5101234508",
     "profilePicture": "https://picsum.photos/seed/1719525646/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 5, "day": 28 },
+    "birthday": {
+      "month": 5,
+      "day": 28
+    },
     "isAdmin": false
   },
   {
@@ -442,7 +562,10 @@ export let communityUsers: User[] = [
     "phone": "5101234507",
     "profilePicture": "https://picsum.photos/seed/1719525647/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 2, "day": 15 },
+    "birthday": {
+      "month": 2,
+      "day": 15
+    },
     "isAdmin": false
   },
   {
@@ -451,7 +574,10 @@ export let communityUsers: User[] = [
     "phone": "5101234505",
     "profilePicture": "https://picsum.photos/seed/1719525648/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 9, "day": 21 },
+    "birthday": {
+      "month": 9,
+      "day": 21
+    },
     "isAdmin": false
   },
   {
@@ -460,7 +586,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (510) 674-4215",
     "profilePicture": "https://picsum.photos/seed/1719525649/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 2, "day": 6 },
+    "birthday": {
+      "month": 2,
+      "day": 6
+    },
     "isAdmin": false
   },
   {
@@ -469,7 +598,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (510) 688-8467",
     "profilePicture": "https://picsum.photos/seed/1719525650/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 6, "day": 5 },
+    "birthday": {
+      "month": 6,
+      "day": 5
+    },
     "isAdmin": false
   },
   {
@@ -478,7 +610,10 @@ export let communityUsers: User[] = [
     "phone": "+1 (628) 233-1722",
     "profilePicture": "https://picsum.photos/seed/1719525651/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 6, "day": 5 },
+    "birthday": {
+      "month": 6,
+      "day": 5
+    },
     "isAdmin": false
   },
   {
@@ -487,7 +622,10 @@ export let communityUsers: User[] = [
     "phone": "9254343862",
     "profilePicture": "https://picsum.photos/seed/1719525652/200/200",
     "profileDetails": "A new member of the community.",
-    "birthday": { "month": 4, "day": 3 },
+    "birthday": {
+      "month": 4,
+      "day": 3
+    },
     "isAdmin": true
   }
 ];

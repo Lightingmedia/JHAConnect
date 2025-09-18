@@ -5,7 +5,6 @@ import { useParams } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import { Copy, Check, VideoOff, MicOff, PhoneOff, AlertTriangle } from 'lucide-react';
 
@@ -20,6 +19,8 @@ export default function JoinMeetingPage() {
   const meetingLink = typeof window !== 'undefined' ? window.location.href : '';
 
   useEffect(() => {
+    let stream: MediaStream | null = null;
+    
     const getCameraPermission = async () => {
       if (typeof window === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
         setHasCameraPermission(false);
@@ -32,7 +33,7 @@ export default function JoinMeetingPage() {
       }
       
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         setHasCameraPermission(true);
 
         if (videoRef.current) {
@@ -53,8 +54,7 @@ export default function JoinMeetingPage() {
 
     return () => {
         // Cleanup: stop media tracks when component unmounts
-        if (videoRef.current && videoRef.current.srcObject) {
-            const stream = videoRef.current.srcObject as MediaStream;
+        if (stream) {
             stream.getTracks().forEach(track => track.stop());
         }
     }

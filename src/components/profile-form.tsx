@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 import type { User } from '@/lib/types';
 import { updateUser } from '@/lib/actions';
 import { Button } from './ui/button';
@@ -24,6 +24,8 @@ export function ProfileForm({ user }: { user: User }) {
   const { toast } = useToast();
 
   const updateUserWithToast = async (prevState: any, formData: FormData) => {
+    // This action is designed to be used with useActionState.
+    // It creates a user object from the form data and calls the server action.
     const updatedUser: User = {
       ...user,
       name: formData.get('name') as string,
@@ -35,17 +37,25 @@ export function ProfileForm({ user }: { user: User }) {
       }
     };
     
-    await updateUser(updatedUser);
-    
-    toast({
-      title: "Profile Updated",
-      description: "Your profile information has been saved.",
-    });
-
-    return null;
+    try {
+        await updateUser(updatedUser);
+        return { message: "Profile Updated", description: "Your profile information has been saved." };
+    } catch (error) {
+        return { message: "Update Failed", description: "Could not save your profile.", error: true };
+    }
   };
 
   const [state, formAction] = useActionState(updateUserWithToast, null);
+  
+  useEffect(() => {
+    if (state?.message) {
+      toast({
+        title: state.message,
+        description: state.description,
+        variant: state.error ? 'destructive' : 'default',
+      });
+    }
+  }, [state, toast]);
 
   return (
     <form action={formAction} className="grid gap-6">

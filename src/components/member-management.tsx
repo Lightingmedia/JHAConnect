@@ -35,13 +35,14 @@ import { Badge } from './ui/badge';
 import { addUser, deleteUser, updateUser, uploadUsers } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 import { MemberUpload } from './member-upload';
+import { useRouter } from 'next/navigation';
 
 export default function MemberManagement() {
-  const [users, setUsers] = useState<User[]>(initialUsers);
   const [editingUser, setEditingUser] = useState<User | null | 'new'>(null);
   const [deletingUser, setDeletingUser] = useState<User | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleSave = async (userToSave: User) => {
     if (editingUser === 'new') {
@@ -51,9 +52,8 @@ export default function MemberManagement() {
       await updateUser(userToSave);
       toast({ title: "Member Updated", description: `${userToSave.name}'s information has been updated.` });
     }
-    // Note: In a real app, we would re-fetch users or get the updated list back
-    // For this demo, we'll just close the form. The revalidation should update the UI.
     setEditingUser(null);
+    router.refresh();
   };
 
   const handleDeleteConfirm = async () => {
@@ -61,6 +61,7 @@ export default function MemberManagement() {
         await deleteUser(deletingUser.id);
         toast({ title: "Member Deleted", description: `${deletingUser.name} has been removed from the community.`, variant: 'destructive' });
         setDeletingUser(null);
+        router.refresh();
     }
   };
 
@@ -73,6 +74,7 @@ export default function MemberManagement() {
         title: 'Upload Successful',
         description: 'Member data has been updated from the XLS file.',
       });
+      router.refresh();
     } catch (error) {
       toast({
         title: 'Upload Failed',

@@ -5,6 +5,7 @@ import {
   Users,
   Settings,
   Contact,
+  Video,
 } from 'lucide-react';
 import { UserNav } from '@/components/user-nav';
 import { Button } from '@/components/ui/button';
@@ -20,6 +21,7 @@ export default async function AppLayout({
   const navItems = [
     { href: '/dashboard', icon: Home, label: 'Dashboard' },
     { href: '/directory', icon: Contact, label: 'Directory' },
+    { href: '/meetings', icon: Video, label: 'Meetings' },
   ];
 
   if (user?.isAdmin) {

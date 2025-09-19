@@ -621,7 +621,7 @@ export let communityUsers: User[] = [
     "name": "Bola Olatunji",
     "phone": "9254343862",
     "profilePicture": "https://picsum.photos/seed/1719525652/200/200",
-    "profileDetails": "A new member of the community.",
+    "profileDetails": "The Super Admin of the community.",
     "birthday": {
       "month": 4,
       "day": 3
@@ -658,7 +658,7 @@ export const members: Member[] = [
     { name: 'ESSIEN EKERETTE PAUL', dob: 'Jan 1', phone: '510-717-6816' },
     { name: 'ALADE ADEOLA', dob: 'Jan 4', phone: '925-813-5393' },
     { name: 'YESIN TIMI', dob: 'Jan 4', phone: '925-432-4093' },
-    { name: 'ADRONMU MARY OLUWASEUN', dob: 'Jan 6', phone: '925-303-2696' },
+    { name: 'ADERONMU MARY OLUWASEUN', dob: 'Jan 6', phone: '925-303-2696' },
     { name: 'ALADE GABRIELLE', dob: 'Jan 8', phone: '925-817-7568' },
     { name: 'ONYENWE JANEFRANCES', dob: 'Jan 10', phone: '925-727-1559' },
     { name: 'ADEBOTE FOLASADE', dob: 'Jan 12', phone: '925-858-0934' },

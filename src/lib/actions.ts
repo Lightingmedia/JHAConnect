@@ -11,6 +11,12 @@ import type { User } from './types';
 import fs from 'fs/promises';
 import path from 'path';
 import twilio from 'twilio';
+import { getAuthenticatedUser as getAuthUser } from './auth';
+
+
+export async function getAuthenticatedUser() {
+    return getAuthUser();
+}
 
 export async function login(
   prevState: { error: string } | undefined,

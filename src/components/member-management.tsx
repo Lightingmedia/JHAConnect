@@ -26,22 +26,93 @@ import {
     AlertDialogTitle,
   } from "@/components/ui/alert-dialog"
 import { Button } from '@/components/ui/button';
-import { MoreHorizontal, PlusCircle, Upload } from 'lucide-react';
+import { MoreHorizontal, PlusCircle, Upload, Shield, ShieldCheck, User as UserIcon } from 'lucide-react';
 import type { User } from '@/lib/types';
 import { MemberForm } from '@/components/member-form';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Badge } from './ui/badge';
-import { addUser, deleteUser, updateUser, uploadUsers } from '@/lib/actions';
+import { addUser, deleteUser, updateUser, uploadUsers, getAuthenticatedUser } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 import { MemberUpload } from './member-upload';
 import { useRouter } from 'next/navigation';
 
+// A simple client-side utility to get the current user.
+// In a real app, this would likely come from a context or a hook.
+async function getCurrentUser() {
+  return await getAuthenticatedUser();
+}
+
+const SUPER_ADMIN_PHONE = "9254343862";
+
 export default function MemberManagement({ users }: { users: User[] }) {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [editingUser, setEditingUser] = useState<User | null | 'new'>(null);
   const [deletingUser, setDeletingUser] = useState<User | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+
+  useState(() => {
+    getCurrentUser().then(setCurrentUser);
+  });
+
+  const isSuperAdmin = currentUser?.phone === SUPER_ADMIN_PHONE;
+
+  const getRole = (user: User) => {
+    if (user.phone === SUPER_ADMIN_PHONE) return 'Super Admin';
+    if (user.isAdmin) return 'Admin';
+    return 'Member';
+  };
+
+  const canEdit = (targetUser: User) => {
+    if (!currentUser) return false;
+    if (isSuperAdmin) return true; // Super admin can edit anyone
+    if (!currentUser.isAdmin) return false; // Non-admins can't edit
+    
+    // Admins can't edit super admins or other admins
+    if (targetUser.phone === SUPER_ADMIN_PHONE || targetUser.isAdmin) {
+        return false;
+    }
+    return true;
+  }
+
+  const canDelete = (targetUser: User) => {
+    // Same logic as editing for this use case
+    return canEdit(targetUser);
+  }
+
+  const handleEdit = (user: User) => {
+    if (canEdit(user)) {
+        setEditingUser(user);
+    } else {
+        toast({
+            title: "Permission Denied",
+            description: "You do not have permission to edit this user.",
+            variant: "destructive",
+        });
+    }
+  }
+  
+  const handleDelete = (user: User) => {
+    if (user.phone === SUPER_ADMIN_PHONE) {
+        toast({
+            title: "Action Not Allowed",
+            description: "The Super Admin cannot be deleted.",
+            variant: "destructive",
+        });
+        return;
+    }
+    if (canDelete(user)) {
+        setDeletingUser(user);
+    } else {
+        toast({
+            title: "Permission Denied",
+            description: "You do not have permission to delete this user.",
+            variant: "destructive",
+        });
+    }
+  }
+
 
   const handleSave = async (userToSave: User) => {
     try {
@@ -117,7 +188,11 @@ export default function MemberManagement({ users }: { users: User[] }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
+            {users.map((user) => {
+                const role = getRole(user);
+                const isTargetSuperAdmin = user.phone === SUPER_ADMIN_PHONE;
+
+                return (
               <TableRow key={user.id}>
                 <TableCell>
                   <div className="flex items-center gap-4">
@@ -131,23 +206,29 @@ export default function MemberManagement({ users }: { users: User[] }) {
                 <TableCell>{user.phone}</TableCell>
                 <TableCell>{new Date(2024, user.birthday.month - 1, user.birthday.day).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}</TableCell>
                 <TableCell>
-                  {user.isAdmin && <Badge>Admin</Badge>}
+                    <Badge variant={role === 'Super Admin' ? 'destructive' : role === 'Admin' ? 'default' : 'secondary'}>
+                        {role === 'Super Admin' && <ShieldCheck className="mr-2 h-4 w-4" />}
+                        {role === 'Admin' && <Shield className="mr-2 h-4 w-4" />}
+                        {role === 'Member' && <UserIcon className="mr-2 h-4 w-4" />}
+                        {role}
+                    </Badge>
                 </TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
+                      <Button variant="ghost" className="h-8 w-8 p-0" disabled={isTargetSuperAdmin && !isSuperAdmin}>
                         <span className="sr-only">Open menu</span>
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => setEditingUser(user)}>
+                      <DropdownMenuItem onClick={() => handleEdit(user)} disabled={!canEdit(user)}>
                         Edit
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-red-600 focus:text-red-600"
-                        onClick={() => setDeletingUser(user)}
+                        onClick={() => handleDelete(user)}
+                        disabled={!canDelete(user)}
                       >
                         Delete
                       </DropdownMenuItem>
@@ -155,7 +236,7 @@ export default function MemberManagement({ users }: { users: User[] }) {
                   </DropdownMenu>
                 </TableCell>
               </TableRow>
-            ))}
+            )})}
           </TableBody>
         </Table>
       </div>
@@ -165,6 +246,7 @@ export default function MemberManagement({ users }: { users: User[] }) {
             user={editingUser === 'new' ? null : editingUser} 
             onSave={handleSave}
             onCancel={() => setEditingUser(null)}
+            currentUser={currentUser}
         />
       )}
 

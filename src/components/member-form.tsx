@@ -18,6 +18,7 @@ import {
 
 interface MemberFormProps {
   user: User | null;
+  currentUser: User | null;
   onSave: (user: User) => void;
   onCancel: () => void;
 }
@@ -30,7 +31,9 @@ const emptyUser: Omit<User, 'id' | 'profilePicture'> = {
     isAdmin: false
 };
 
-export function MemberForm({ user, onSave, onCancel }: MemberFormProps) {
+const SUPER_ADMIN_PHONE = "9254343862";
+
+export function MemberForm({ user, currentUser, onSave, onCancel }: MemberFormProps) {
   const [formData, setFormData] = useState<Omit<User, 'id' | 'profilePicture'>>(user ? {
       name: user.name,
       phone: user.phone,
@@ -80,6 +83,9 @@ export function MemberForm({ user, onSave, onCancel }: MemberFormProps) {
     onSave(userToSave);
   };
 
+  const isCurrentUserSuperAdmin = currentUser?.phone === SUPER_ADMIN_PHONE;
+  const isEditingSuperAdmin = user?.phone === SUPER_ADMIN_PHONE;
+
   return (
     <Dialog open onOpenChange={onCancel}>
       <DialogContent className="sm:max-w-[425px]">
@@ -109,12 +115,19 @@ export function MemberForm({ user, onSave, onCancel }: MemberFormProps) {
             <Label htmlFor="profileDetails" className="text-right">Details</Label>
             <Textarea id="profileDetails" name="profileDetails" value={formData.profileDetails} onChange={handleChange} className="col-span-3" />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="isAdmin" className="text-right">Admin</Label>
-            <div className="col-span-3 flex items-center">
-                <Checkbox id="isAdmin" checked={formData.isAdmin} onCheckedChange={handleCheckboxChange} />
+          {isCurrentUserSuperAdmin && (
+             <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="isAdmin" className="text-right">Admin</Label>
+                <div className="col-span-3 flex items-center">
+                    <Checkbox 
+                        id="isAdmin" 
+                        checked={formData.isAdmin} 
+                        onCheckedChange={handleCheckboxChange}
+                        disabled={isEditingSuperAdmin}
+                    />
+                </div>
             </div>
-          </div>
+          )}
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={onCancel}>Cancel</Button>
             <Button type="submit">Save changes</Button>

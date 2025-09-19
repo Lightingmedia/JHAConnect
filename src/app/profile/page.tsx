@@ -16,9 +16,9 @@ export default async function ProfilePage() {
       <div className="flex justify-center">
         <Card className="w-full max-w-2xl bg-background/80 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle className="font-headline">Your Profile</CardTitle>
+            <CardTitle className="font-headline">Edit Your Profile</CardTitle>
             <CardDescription>
-              Manage your personal information. Changes are not persistent.
+              Update your personal information and profile picture. Changes are for demonstration and will not persist across sessions.
             </CardDescription>
           </CardHeader>
           <CardContent>

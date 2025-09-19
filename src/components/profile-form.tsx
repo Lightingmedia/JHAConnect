@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useEffect } from 'react';
+import { useActionState, useEffect, useState, useRef } from 'react';
 import type { User } from '@/lib/types';
 import { updateUser } from '@/lib/actions';
 import { Button } from './ui/button';
@@ -10,6 +10,7 @@ import { Textarea } from './ui/textarea';
 import { useFormStatus } from 'react-dom';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+import { Upload } from 'lucide-react';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -22,10 +23,17 @@ function SubmitButton() {
 
 export function ProfileForm({ user }: { user: User }) {
   const { toast } = useToast();
+  const [imagePreview, setImagePreview] = useState<string | null>(user.profilePicture);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const updateUserWithToast = async (prevState: any, formData: FormData) => {
     // This action is designed to be used with useActionState.
     // It creates a user object from the form data and calls the server action.
+    
+    // In a real app, you would handle file upload to a storage service (e.g., Firebase Storage)
+    // and get a URL back. For this demo, we'll just simulate it with a new placeholder.
+    const hasNewImage = (formData.get('profilePicture') as File)?.size > 0;
+    
     const updatedUser: User = {
       ...user,
       name: formData.get('name') as string,
@@ -34,7 +42,8 @@ export function ProfileForm({ user }: { user: User }) {
       birthday: {
         month: parseInt(formData.get('birthday-month') as string),
         day: parseInt(formData.get('birthday-day') as string),
-      }
+      },
+      profilePicture: hasNewImage ? `https://picsum.photos/seed/${Date.now()}/200/200` : user.profilePicture
     };
     
     try {
@@ -57,17 +66,48 @@ export function ProfileForm({ user }: { user: User }) {
     }
   }, [state, toast]);
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <form action={formAction} className="grid gap-6">
-      <div className="flex items-center gap-6">
-        <Image 
-            src={user.profilePicture}
-            alt={user.name}
-            width={96}
-            height={96}
-            className="rounded-full"
-        />
-        <div className="flex-1 space-y-1">
+      <div className="flex flex-col items-center gap-4">
+        <div className="relative">
+            <Image 
+                src={imagePreview || user.profilePicture}
+                alt={user.name}
+                width={96}
+                height={96}
+                className="rounded-full w-24 h-24 object-cover"
+            />
+            <Button 
+                type="button" 
+                size="icon" 
+                className="absolute bottom-0 right-0 rounded-full h-8 w-8"
+                onClick={() => fileInputRef.current?.click()}
+            >
+                <Upload className="h-4 w-4" />
+                <span className="sr-only">Upload new picture</span>
+            </Button>
+            <Input 
+                id="profilePicture" 
+                name="profilePicture" 
+                type="file" 
+                className="hidden" 
+                ref={fileInputRef}
+                accept="image/*"
+                onChange={handleImageChange}
+            />
+        </div>
+        <div className="flex-1 w-full space-y-1">
             <Label htmlFor="name">Name</Label>
             <Input id="name" name="name" defaultValue={user.name} />
         </div>

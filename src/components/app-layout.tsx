@@ -20,7 +20,7 @@ export default async function AppLayout({
 
   const navItems = [
     { href: '/dashboard', icon: Home, label: 'Dashboard' },
-    { href: '/directory', icon: Contact, label: 'Directory' },
+    { href: '/directory', icon: Contact, label: 'Men' },
     { href: '/members', icon: Users, label: 'Members' },
     { href: '/meetings', icon: Video, label: 'Meetings' },
   ];

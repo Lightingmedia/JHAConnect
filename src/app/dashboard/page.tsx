@@ -48,7 +48,7 @@ export default async function DashboardPage() {
   const parsedMembers = parseMembers(members);
   const allUsers = [...communityUsers, ...parsedMembers];
   
-  const birthdaysToday = allUsers.filter(u => u.birthday.month === today.getMonth() + 1 && u.birthday.day === today.getDate());
+  const birthdaysToday = allUsers.filter(u => u.birthday && u.birthday.month === today.getMonth() + 1 && u.birthday.day === today.getDate());
   
   const upcomingBirthdays = allUsers.map(u => {
     // Ensure birthday is valid before creating a date
@@ -84,8 +84,7 @@ export default async function DashboardPage() {
         <Card className="bg-background/80 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="font-headline flex items-center gap-2">
-              <Cake className="text-primary" />
-              Upcoming Birthdays
+              <Cake className="text-primary" /> Upcoming Birthdays
             </CardTitle>
           </CardHeader>
           <CardContent>

@@ -6,7 +6,6 @@ import {
   Settings,
   Contact,
   Video,
-  Church,
 } from 'lucide-react';
 import { UserNav } from '@/components/user-nav';
 import { getAuthenticatedUser } from '@/lib/auth';

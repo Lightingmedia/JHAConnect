@@ -91,17 +91,21 @@ export default function DashboardPage() {
 
   const birthdayDates = getBirthdayDates(allUsers);
 
-  const handleDayClick = (day: Date) => {
+  const handleDayClick = (day: Date | undefined) => {
     setSelectedDate(day);
-    const birthdays = allUsers.filter(u => 
-      u.birthday && 
-      u.birthday.month === day.getMonth() + 1 && 
-      u.birthday.day === day.getDate()
-    );
-    if(birthdays.length > 0) {
-        setBirthdaysOnSelectedDay(birthdays);
+    if (day) {
+      const birthdays = allUsers.filter(u => 
+        u.birthday && 
+        u.birthday.month === day.getMonth() + 1 && 
+        u.birthday.day === day.getDate()
+      );
+      if(birthdays.length > 0) {
+          setBirthdaysOnSelectedDay(birthdays);
+      } else {
+          setBirthdaysOnSelectedDay([]);
+      }
     } else {
-        setBirthdaysOnSelectedDay([]);
+      setBirthdaysOnSelectedDay([]);
     }
   };
 

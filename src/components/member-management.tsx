@@ -170,7 +170,7 @@ export default function MemberManagement({ users }: { users: User[] }) {
             <Upload className="mr-2 h-4 w-4" />
             Upload XLS
         </Button>
-        <Button onClick={() => setEditingUser('new')}>
+        <Button onClick={() => setEditingUser('new')} disabled={!currentUser?.isAdmin}>
             <PlusCircle className="mr-2 h-4 w-4" />
             Add Member
         </Button>
@@ -203,7 +203,7 @@ export default function MemberManagement({ users }: { users: User[] }) {
                   </div>
                 </TableCell>
                 <TableCell>{user.phone}</TableCell>
-                <TableCell>{new Date(2024, user.birthday.month - 1, user.birthday.day).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}</TableCell>
+                <TableCell>{new Date(0, user.birthday.month - 1, user.birthday.day).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}</TableCell>
                 <TableCell>
                     <Badge variant={role === 'Super Admin' ? 'destructive' : role === 'Admin' ? 'default' : 'secondary'}>
                         {role === 'Super Admin' && <ShieldCheck className="mr-2 h-4 w-4" />}

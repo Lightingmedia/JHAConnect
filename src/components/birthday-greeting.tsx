@@ -1,15 +1,30 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { getAIBirthdayGreeting } from '@/lib/actions';
+import { useEffect, useState, useActionState } from 'react';
+import { getAIBirthdayGreeting, sendWhatsAppMessage } from '@/lib/actions';
 import type { User } from '@/lib/types';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Gift } from 'lucide-react';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Gift, MessageSquareText } from 'lucide-react';
 import { Skeleton } from './ui/skeleton';
+import { Button } from './ui/button';
+import { useToast } from '@/hooks/use-toast';
+import { useFormStatus } from 'react-dom';
+
+
+function SubmitButton() {
+    const { pending } = useFormStatus();
+    return (
+        <Button type="submit" disabled={pending}>
+            <MessageSquareText className="mr-2 h-4 w-4" />
+            {pending ? 'Sending...' : 'Send WhatsApp Greeting'}
+        </Button>
+    );
+}
 
 export default function BirthdayGreeting({ member }: { member: User }) {
   const [greeting, setGreeting] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     async function fetchGreeting() {
@@ -30,6 +45,25 @@ export default function BirthdayGreeting({ member }: { member: User }) {
     fetchGreeting();
   }, [member]);
 
+  const handleSendWhatsApp = async () => {
+    if (!greeting) return;
+
+    const result = await sendWhatsAppMessage(member.phone, greeting);
+    
+    if (result.success) {
+      toast({
+        title: "Message Sent!",
+        description: `Birthday greeting sent to ${member.name} via WhatsApp.`,
+      });
+    } else {
+      toast({
+        title: "Message Failed",
+        description: result.error || "Could not send WhatsApp message.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <Card className="bg-accent/30 border-accent">
       <CardHeader>
@@ -48,6 +82,11 @@ export default function BirthdayGreeting({ member }: { member: User }) {
           <p className="text-accent-foreground/90">{greeting || `Wishing you a fantastic day, ${member.name}!`}</p>
         )}
       </CardContent>
+      <CardFooter>
+          <form action={handleSendWhatsApp}>
+             <SubmitButton />
+          </form>
+      </CardFooter>
     </Card>
   );
 }

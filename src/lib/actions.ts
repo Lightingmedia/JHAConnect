@@ -10,6 +10,7 @@ import type { GenerateBirthdayGreetingInput } from '@/ai/flows/generate-birthday
 import type { User } from './types';
 import fs from 'fs/promises';
 import path from 'path';
+import twilio from 'twilio';
 
 export async function login(
   prevState: { error: string } | undefined,
@@ -43,6 +44,30 @@ export async function getAIBirthdayGreeting(input: GenerateBirthdayGreetingInput
     const result = await generateBirthdayGreeting(input);
     return result.greeting;
 }
+
+export async function sendWhatsAppMessage(to: string, body: string) {
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;
+    const from = process.env.TWILIO_WHATSAPP_NUMBER;
+
+    if (!accountSid || !authToken || !from) {
+        console.error('Twilio credentials are not configured in .env file');
+        return { success: false, error: 'WhatsApp integration is not configured.' };
+    }
+
+    // Basic phone number formatting
+    const formattedTo = `whatsapp:${to.startsWith('+') ? to : `+${to.replace(/\D/g, '')}`}`;
+
+    try {
+        const client = twilio(accountSid, authToken);
+        await client.messages.create({ from, to: formattedTo, body });
+        return { success: true };
+    } catch (error) {
+        console.error('Twilio Error:', error);
+        return { success: false, error: (error as Error).message };
+    }
+}
+
 
 export async function updateUser(user: User) {
     const index = communityUsers.findIndex(u => u.id === user.id);
@@ -83,12 +108,16 @@ async function writeUsersToFile(users: User[]) {
     // We need to read the existing content to preserve the posts and other exports.
     const existingContent = await fs.readFile(filePath, 'utf-8');
     const postsRegex = /export let communityPosts: Post\[] = (\[[\s\S]*?\]);/;
+    const membersRegex = /export const members: Member\[] = (\[[\s\S]*?\]);/;
     const postsMatch = existingContent.match(postsRegex);
+    const membersMatch = existingContent.match(membersRegex);
+
     const postsContent = postsMatch ? postsMatch[0] : 'export let communityPosts: Post[] = [];';
+    const membersContent = membersMatch ? membersMatch[0] : 'export const members: Member[] = [];';
 
     const usersString = JSON.stringify(users, null, 2);
 
-    const newContent = `import type { User, Post } from './types';
+    const newContent = `import type { User, Post, Member } from './types';
 
 // This file will be overwritten by the XLS upload feature.
 // Do not edit it manually if you intend to use the upload feature.
@@ -96,6 +125,8 @@ async function writeUsersToFile(users: User[]) {
 export let communityUsers: User[] = ${usersString};
 
 ${postsContent}
+
+${membersContent}
 
 // This function is used by the upload action to overwrite the data in this file.
 export function __dangerously_set_community_users(users: User[]) {

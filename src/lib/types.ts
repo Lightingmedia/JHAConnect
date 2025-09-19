@@ -18,3 +18,9 @@ export interface Post {
   timestamp: string;
   likes: string[]; // array of user IDs
 }
+
+export interface Member {
+    name: string;
+    dob: string | null;
+    phone: string | null;
+}

@@ -8,7 +8,6 @@ import {
   Video,
 } from 'lucide-react';
 import { UserNav } from '@/components/user-nav';
-import { Button } from '@/components/ui/button';
 import { getAuthenticatedUser } from '@/lib/auth';
 
 export default async function AppLayout({
@@ -21,6 +20,7 @@ export default async function AppLayout({
   const navItems = [
     { href: '/dashboard', icon: Home, label: 'Dashboard' },
     { href: '/directory', icon: Contact, label: 'Directory' },
+    { href: '/members', icon: Users, label: 'Members' },
     { href: '/meetings', icon: Video, label: 'Meetings' },
   ];
 

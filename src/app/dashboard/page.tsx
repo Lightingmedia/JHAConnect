@@ -1,21 +1,56 @@
-import { communityUsers, communityPosts } from '@/lib/data';
+import { communityUsers, communityPosts, members } from '@/lib/data';
 import { getAuthenticatedUser } from '@/lib/auth';
 import BirthdayGreeting from '@/components/birthday-greeting';
 import StatusUpdate from '@/components/status-update';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { format, isSameDay } from 'date-fns';
+import { format, isSameDay, parse } from 'date-fns';
 import { Cake, ThumbsUp } from 'lucide-react';
-import type { User } from '@/lib/types';
+import type { User, Member } from '@/lib/types';
+
+function getBirthdayDates(users: (User | {name: string, birthday: {month: number, day: number}})[]): Date[] {
+  const today = new Date();
+  return users
+    .filter(u => u.birthday && typeof u.birthday.month === 'number' && typeof u.birthday.day === 'number')
+    .map(u => new Date(today.getFullYear(), u.birthday.month - 1, u.birthday.day));
+}
+
+function parseMembers(members: Member[]): User[] {
+    const monthMap: { [key: string]: number } = {
+        'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6,
+        'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
+    };
+
+    return members.filter(m => m.dob).map((member, index) => {
+        const [monthStr, dayStr] = member.dob!.split(' ');
+        const month = monthMap[monthStr];
+        const day = parseInt(dayStr, 10);
+        
+        return {
+            id: `member-${index}`,
+            name: member.name,
+            phone: member.phone || '',
+            profilePicture: `https://picsum.photos/seed/member${index}/200/200`,
+            profileDetails: '',
+            birthday: { month, day },
+            isAdmin: false
+        };
+    });
+}
+
 
 export default async function DashboardPage() {
   const user = await getAuthenticatedUser();
 
   const today = new Date();
-  const birthdaysToday = communityUsers.filter(u => u.birthday.month === today.getMonth() + 1 && u.birthday.day === today.getDate());
+
+  const parsedMembers = parseMembers(members);
+  const allUsers = [...communityUsers, ...parsedMembers];
   
-  const upcomingBirthdays = communityUsers.map(u => {
+  const birthdaysToday = allUsers.filter(u => u.birthday.month === today.getMonth() + 1 && u.birthday.day === today.getDate());
+  
+  const upcomingBirthdays = allUsers.map(u => {
     // Ensure birthday is valid before creating a date
     if (u.birthday && typeof u.birthday.month === 'number' && typeof u.birthday.day === 'number') {
       const birthdayDate = new Date(today.getFullYear(), u.birthday.month - 1, u.birthday.day);
@@ -30,9 +65,7 @@ export default async function DashboardPage() {
   .sort((a, b) => a.birthdayDate!.getTime() - b.birthdayDate!.getTime())
   .slice(0, 5);
 
-  const birthdayDates = communityUsers
-    .filter(u => u.birthday && typeof u.birthday.month === 'number' && typeof u.birthday.day === 'number')
-    .map(u => new Date(today.getFullYear(), u.birthday.month - 1, u.birthday.day));
+  const birthdayDates = getBirthdayDates(allUsers);
 
 
   return (

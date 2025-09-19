@@ -5,16 +5,7 @@ import { Users } from 'lucide-react';
 
 export default function LoginPage() {
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center p-4">
-      <Image
-        src="https://storage.googleapis.com/aifirebase-demo-images/jhaconnect_background.jpg"
-        alt="Community background"
-        fill
-        className="object-cover -z-10"
-        data-ai-hint="community gathering"
-      />
-      <div className="absolute inset-0 bg-background/50 -z-10" />
-      
+    <main className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <Card className="w-full max-w-sm bg-background/80 backdrop-blur-sm border-2">
         <CardHeader className="text-center items-center">
           <div className="bg-primary rounded-full p-3 mb-2">

@@ -31,6 +31,10 @@ export default function MeetingsPage() {
   const [scheduledMeeting, setScheduledMeeting] = useState<{ link: string; topic: string; dateTime: Date } | null>(null);
   const [copied, setCopied] = useState(false);
 
+  // Use a placeholder for the public domain.
+  // The development URL (window.location.origin) is not shareable.
+  const public_url = 'https://your-deployed-app.com';
+
   const generateMeeting = () => {
     const newMeetingId = `jha-connect-${Math.random().toString(36).substring(2, 11)}`;
     router.push(`/meetings/join/${newMeetingId}`);
@@ -45,7 +49,7 @@ export default function MeetingsPage() {
     scheduledDateTime.setHours(hours, minutes);
 
     const meetingId = `scheduled-${topic.replace(/\s+/g, '-').toLowerCase()}-${Math.random().toString(36).substring(2, 7)}`;
-    const meetingLink = `${window.location.origin}/meetings/join/${meetingId}`;
+    const meetingLink = `${public_url}/meetings/join/${meetingId}`;
     
     setScheduledMeeting({
         link: meetingLink,

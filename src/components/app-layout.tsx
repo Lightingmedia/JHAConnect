@@ -6,6 +6,7 @@ import {
   Settings,
   Contact,
   Video,
+  Church,
 } from 'lucide-react';
 import { UserNav } from '@/components/user-nav';
 import { getAuthenticatedUser } from '@/lib/auth';
@@ -34,6 +35,7 @@ export default async function AppLayout({
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold font-headline">
+              <Users className="h-6 w-6" />
               <span className="">JHA Connect</span>
             </Link>
           </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Table,
   TableBody,
@@ -52,9 +52,9 @@ export default function MemberManagement({ users }: { users: User[] }) {
   const { toast } = useToast();
   const router = useRouter();
 
-  useState(() => {
+  useEffect(() => {
     getCurrentUser().then(setCurrentUser);
-  });
+  }, []);
 
   const isSuperAdmin = currentUser?.phone === SUPER_ADMIN_PHONE;
 
@@ -77,8 +77,15 @@ export default function MemberManagement({ users }: { users: User[] }) {
   }
 
   const canDelete = (targetUser: User) => {
-    // Same logic as editing for this use case
-    return canEdit(targetUser);
+    // Admins can't delete the Super Admin.
+    if (targetUser.phone === SUPER_ADMIN_PHONE) return false;
+    if (!currentUser) return false;
+    // Super admin can delete anyone (except themselves).
+    if (isSuperAdmin && currentUser.id !== targetUser.id) return true;
+    // Admins can delete members, but not other admins.
+    if (currentUser.isAdmin && !targetUser.isAdmin) return true;
+    
+    return false;
   }
 
   const handleEdit = (user: User) => {
@@ -94,14 +101,6 @@ export default function MemberManagement({ users }: { users: User[] }) {
   }
   
   const handleDelete = (user: User) => {
-    if (user.phone === SUPER_ADMIN_PHONE) {
-        toast({
-            title: "Action Not Allowed",
-            description: "The Super Admin cannot be deleted.",
-            variant: "destructive",
-        });
-        return;
-    }
     if (canDelete(user)) {
         setDeletingUser(user);
     } else {
@@ -167,7 +166,7 @@ export default function MemberManagement({ users }: { users: User[] }) {
   return (
     <>
       <div className="flex justify-end gap-2">
-        <Button onClick={() => setIsUploading(true)}>
+        <Button onClick={() => setIsUploading(true)} disabled={!isSuperAdmin}>
             <Upload className="mr-2 h-4 w-4" />
             Upload XLS
         </Button>
@@ -216,7 +215,7 @@ export default function MemberManagement({ users }: { users: User[] }) {
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0" disabled={isTargetSuperAdmin && !isSuperAdmin}>
+                      <Button variant="ghost" className="h-8 w-8 p-0">
                         <span className="sr-only">Open menu</span>
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>

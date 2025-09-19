@@ -33,14 +33,20 @@ export default function BirthdayGreeting({ member }: { member: User }) {
         "July", "August", "September", "October", "November", "December"
       ];
       
-      const generatedGreeting = await getAIBirthdayGreeting({
-        memberName: member.name,
-        birthdayMonth: monthNames[today.getMonth()],
-        birthdayDay: String(today.getDate()),
-        profileDetails: member.profileDetails,
-      });
-      setGreeting(generatedGreeting);
-      setLoading(false);
+      try {
+        const generatedGreeting = await getAIBirthdayGreeting({
+          memberName: member.name,
+          birthdayMonth: monthNames[today.getMonth()],
+          birthdayDay: String(today.getDate()),
+          profileDetails: member.profileDetails,
+        });
+        setGreeting(generatedGreeting);
+      } catch (error) {
+        console.error("Failed to generate birthday greeting:", error);
+        setGreeting(`Happy Birthday, ${member.name}! Wishing you a fantastic day.`);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchGreeting();
   }, [member]);
@@ -79,7 +85,7 @@ export default function BirthdayGreeting({ member }: { member: User }) {
             <Skeleton className="h-4 w-3/4" />
           </div>
         ) : (
-          <p className="text-accent-foreground/90">{greeting || `Wishing you a fantastic day, ${member.name}!`}</p>
+          <p className="text-accent-foreground/90">{greeting}</p>
         )}
       </CardContent>
       <CardFooter>

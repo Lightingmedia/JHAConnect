@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { communityPosts, communityUsers } from '@/lib/data';
+import { communityPosts } from '@/lib/data';
 import type { User, Post } from '@/lib/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,9 @@ import { formatDistanceToNow } from 'date-fns';
 export default function StatusUpdate({ currentUser }: { currentUser: User }) {
   const [posts, setPosts] = useState<Post[]>(communityPosts);
   const [newPostContent, setNewPostContent] = useState('');
+
+  // In a real app, you would fetch users dynamically. Here we find them in the static list.
+  const findUser = (userId: string) => communityPosts.find((u) => u.id === userId) || currentUser;
 
   const handlePostSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,7 +73,7 @@ export default function StatusUpdate({ currentUser }: { currentUser: User }) {
 
       <div className="space-y-4">
         {posts.map((post) => {
-          const user = communityUsers.find((u) => u.id === post.userId);
+          const user = findUser(post.userId);
           if (!user) return null;
           const isLiked = post.likes.includes(currentUser.id);
 
